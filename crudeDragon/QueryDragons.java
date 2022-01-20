@@ -180,9 +180,88 @@ public class QueryDragons extends MyConnexion{
 	
 	public static void saisieChoixUpdate() {
 		boolean testUpdate = false;
+		
+		do {
+			testUpdate = true;
+			
+			if (testUpdate) {
+				
+			}
+			
+			System.out.println("Quel dragon voulez-vous modifier ? (indiquer son nom)");
+			String nomAChanger = saisir.nextLine();
+			
+			System.out.println("Saisissez le nouveau nom : ");
+			String nouveauNom = saisir.nextLine();
+			
+			updateNomDragons(nouveauNom, nomAChanger);
+			
+			
+			System.out.println("Quel est l'ID du dragon que vous aimeriez modifier ? (indiquer son id_Dragon)");
+			int idAChanger = saisir.nextInt();
+			
+			System.out.println("Saisissez le nouveau ID : ");
+			int nouveauID = saisir.nextInt();
+			
+			updateIdDragons(nouveauID, idAChanger);
+			
+			
+			
+			System.out.println("Quelle est la longueur de dragon a modifier ? (indiquer sa longueur)");
+			int longAChanger = saisir.nextInt();
+			
+			System.out.println("Saisissez la nouvelle longueur : ");
+			int nouvelleLong = saisir.nextInt();
+			
+			updateLongueurDragons(nouvelleLong, longAChanger);
+			saisir.nextLine();
+			
+			
+			System.out.println("Quel est le sexe de dragon a modifier ? (indiquer son sexe)");
+			String sexeAChanger = saisir.nextLine();
+			
+			System.out.println("Saisissez le nouveau sexe : ");
+			
+			String nouveauSexe = saisir.nextLine();
+			
+			updateSexeDragons(nouveauSexe, sexeAChanger);
+			
+			
+			System.out.println("Indiquer le nombres d'ecailles a modifier ? (indiquer son nombres d'Ecailles)");
+			int nbEcaillesAChanger = saisir.nextInt();
+			
+			System.out.println("Saisissez le nouveau nombres d'ecailles : ");
+			
+			int nouveauNbEcailles = saisir.nextInt();
+			
+			updateNombEcaillesDragons(nouveauNbEcailles, nbEcaillesAChanger);
+			
+			
+			
+			System.out.println("Est ce un dragon qui crache du feu que vous aimeriez modifier ?");
+			boolean feuAChanger = saisir.nextBoolean();
+			
+			System.out.println("Saisissez le nouveau caracteristique du feu : ");
+			
+			boolean nouveauFeu = saisir.nextBoolean();
+			
+			updateFeuDragons(nouveauFeu, feuAChanger);
+			
+			
+			System.out.println("Quel comportement amoureux que vous aimeriez modifier ?");
+			String compoAChanger = saisir.nextLine();
+			
+			System.out.println("Saisissez le nouveau caracteristique du feu : ");
+			
+			String nouveauCompo = saisir.nextLine();
+			
+			updateComportementDragons(nouveauCompo, compoAChanger);
+			
+			
+	
+		} while (!testUpdate);
 		System.out.println("");
-	}
-
+}
 	
 	//Update by name using prepared Statement
 	public static boolean updateNomDragons(String nom, String nom2) {
@@ -259,7 +338,7 @@ public class QueryDragons extends MyConnexion{
 		 	return success;
 	}
 	
-	public static boolean updateLongueurDragons(String longDrag, String longDrag2) {
+	public static boolean updateLongueurDragons(int longDrag, int longDrag2) {
 		 boolean success = false;
 		 try {
 			 System.out.println("Debut");
@@ -270,8 +349,8 @@ public class QueryDragons extends MyConnexion{
 			 //Les requetes préparées : PrepareStatement remplace l'ancien Statement.
 			 PreparedStatement declaration = accessDataBase.prepareStatement(query);
 			   
-			 declaration.setString(1, longDrag);
-			 declaration.setString(2, longDrag2);
+			 declaration.setInt(1, longDrag);
+			 declaration.setInt(2, longDrag2);
 			 
 			 int executeUpdate = declaration.executeUpdate();
 			 
@@ -331,7 +410,7 @@ public class QueryDragons extends MyConnexion{
 		 	return success;
 	}
 	
-	public static boolean updateComportementDragons(Boolean compAmoureuxDrag, Boolean compAmoureuxDrag2) {
+	public static boolean updateComportementDragons(String compAmoureuxDrag, String compAmoureuxDrag2) {
 		 boolean success = false;
 		 try {
 			 System.out.println("Debut");
@@ -342,8 +421,8 @@ public class QueryDragons extends MyConnexion{
 			 //Les requetes préparées : PrepareStatement remplace l'ancien Statement.
 			 PreparedStatement declaration = accessDataBase.prepareStatement(query);
 			   
-			 declaration.setBoolean(1, compAmoureuxDrag);
-			 declaration.setBoolean(2, compAmoureuxDrag2);
+			 declaration.setString(1, compAmoureuxDrag);
+			 declaration.setString(2, compAmoureuxDrag2);
 			 
 			 int executeUpdate = declaration.executeUpdate();
 			 
