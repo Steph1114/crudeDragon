@@ -4,7 +4,7 @@ package crudeDragon;
 public class Dragons {
 	private int id_Dragon;
 	private String dragon;
-	private char sexe;
+	private String sexe;
 	private int longueur;
 	private int nombreEcailles;
 	private boolean cracheDuFeu;
@@ -22,15 +22,15 @@ public class Dragons {
 	public String getDragon() {
 		return dragon;
 	}
-	public void setDragon(String dragon) {
-		this.dragon = dragon;
+	public void setDragon(String n) {
+		dragon = n.toUpperCase();
 	}
 	
 	
-	public char getSexe() {
+	public String getSexe() {
 		return sexe;
 	}
-	public void setSexe(char sexe) {
+	public void setSexe(String sexe) {
 		this.sexe = sexe;
 	}
 	
@@ -66,15 +66,19 @@ public class Dragons {
 		this.comportementAmoureux = comportementAmoureux;
 	}
 	
-	public Dragons(int Id_Dragon, String dragon, char sexe, int nombreEcailles, Boolean cracheDuFeu, String comportementAmoureux) {
+	public Dragons(int Id_Dragon, String dragon, String sexe, int longueur, int nombreEcailles, Boolean cracheDuFeu, String comportementAmoureux) {
 		this.setId_Dragon(Id_Dragon);
 		this.setDragon(dragon);
 		this.setSexe(sexe);
+		this.setLongueur(longueur);
 		this.setNombreEcailles(nombreEcailles);
 		this.setCracheDuFeu(cracheDuFeu);
 		this.setComportementAmoureux(comportementAmoureux);
 	}
 	
+	public Dragons() {
+		// TODO Auto-generated constructor stub
+	}
 	@Override
 	public String toString() {
 		return "Dragons [getId_Dragon()=" + getId_Dragon() + ", getDragon()=" + getDragon() + ", getSexe()=" + getSexe()
@@ -83,6 +87,7 @@ public class Dragons {
 				+ ", getClass()=" + getClass() + ", hashCode()=" + hashCode() + ", toString()=" + super.toString()
 				+ "]";
 	}
+	
 	
 	
 
