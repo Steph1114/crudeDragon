@@ -33,31 +33,28 @@ public class QueryDragons extends MyConnexion{
 		
 			String choixEntree = saisir.nextLine();
 			
-			
-			if(!choixEntree.equals("creer") && !choixEntree.equals("modifier") && !choixEntree.equals("supprimer")) {
+		
+			if (choixEntree.equals("creer")) {
+				saisieChoixCreate();
+			}
+			else if (choixEntree.equals("modifier")) {
+				saisieChoixUpdate();
+				
+			}else if (choixEntree.equals("supprimer")) {
+				saisieChoixDelete();
+			}
+			else {				
 				System.out.println("Votre choix n'est pas valid. On recommence");
 				testEntree = false;
-			} else {
-				if (choixEntree.equals("creer")) {
-					saisieChoixDragons();
-				}
-				else if (choixEntree.equals("modifier")) {
-					saisieChoixUpdate();
-					
-				}else if (choixEntree.equals("supprimer")) {
-					saisieChoixDelete();
-				}
-				else {				
-					System.out.println("Merci et au revoir!");
-				}
 			}
 		
 		} while (!testEntree);
-			
+	//	continueOuPas();
+	//	System.out.println("Merci et a bientot!");	
 	}
 	
 	
-	public static void saisieChoixDragons() {
+	public static void saisieChoixCreate() {
 			
 		do {
 			testCreation = true;
@@ -88,12 +85,12 @@ public class QueryDragons extends MyConnexion{
 				createDragons(choixId, choixNom, choixSexe, choixLong, choixEcailles, choixFeu, choixCompo);
 				System.out.println("La derniere ligne correspond a votre creation");
 				readAll();
-				testEntree = false;
+				continueOuPas();
 			}
 			else if (monChoix.equals("non")) {
 				System.out.println("Voici le tableau de dragon existant : ");
 				readAll();
-				testEntree = false;
+				continueOuPas();
 			}
 			else {
 				System.out.println("Votre choix n'est pas valide. On recommence");
@@ -101,10 +98,11 @@ public class QueryDragons extends MyConnexion{
 			}
 	
 		} while (!testCreation);
+		
 	}
 	
 	
-	public static boolean createDragons (int Id_Dragon, String n, String sexe, int longueur, int nombreEcailles, Boolean cracheDuFeu, String comportementAmoureux) {
+	public static boolean createDragons (int id_Dragon, String n, String sexe, int longueur, int nombreEcailles, Boolean cracheDuFeu, String comportementAmoureux) {
 		 boolean flag = false;
 		 try {	
 			 System.out.println("Debut");
@@ -113,7 +111,7 @@ public class QueryDragons extends MyConnexion{
 				 
 				 PreparedStatement declaration = accessDataBase.prepareStatement(query);
 				 
-				 declaration.setInt(1, Id_Dragon); 
+				 declaration.setInt(1, id_Dragon); 
 				 declaration.setString(2, n); 
 				 declaration.setString(3, sexe); 
 				 declaration.setInt(4, longueur); 
@@ -159,22 +157,6 @@ public class QueryDragons extends MyConnexion{
 				 };
 				 System.out.println(Arrays.toString(row));
 				 
-				 //Optimisattion de la 1ere requete de selection
-				 //Au lieu de récupérer les données dans un tableau d'objet, on va récupérer les données dans un objet.
-				 // Un moule parfaitement adapté au données de l'entité dragons
-		/*		 Dragons drag = new Dragons();
-				 drag.setId_Dragon(resultat.getInt("id_Dragon"));
-				 drag.setDragon(resultat.getString("dragon"));
-				// drag.setSexe(resultat.getChar("sexe"));
-				 drag.setLongueur(resultat.getInt("longueur"));
-				 drag.setNombreEcailles(resultat.getInt("nombreEcailles"));
-				 drag.setCracheDuFeu(resultat.getBoolean("cracheDuFeu"));
-				 drag.setComportementAmoureux(resultat.getString("comportementAmoureux"));
-
-				 
-				 //Lire 
-				 System.out.println(drag.toString());
-		*/
 			 }
 		 } catch (Exception e) {
 			 System.err.println("Erreur d'affichage de Dragon: " + e.getMessage());
@@ -196,109 +178,98 @@ public class QueryDragons extends MyConnexion{
 		do {
 			testUpdate = true;
 			
+			System.out.println("Quel dragon voulez-vous modifier ? (indiquer son nom)");
+			String nomAChanger = saisir.nextLine();
+			
 			System.out.println("Que voulez-vous changer (nom / id / sexe / longueur / ecailles / feu / amour) ?");
 			String choixAFaire = saisir.nextLine();
 			
 			if (choixAFaire.equals("nom")) {
-				System.out.println("Quel dragon voulez-vous modifier ? (indiquer son nom)");
-				String nomAChanger = saisir.nextLine();
 				
 				System.out.println("Saisissez le nouveau nom : ");
 				String nouveauNom = saisir.nextLine();
 				
 				updateNomDragons(nouveauNom, nomAChanger);
 				
-				System.out.println("Modification validee !");
-				System.out.println("Voir le changement dans le tableau");
-				readAll();
-			//	testUpdate = false;
+				validationUpdate();
 				
 			} else if (choixAFaire.equals("id")) {
-				System.out.println("Quel est l'ID du dragon que vous aimeriez modifier ? (indiquer son id_Dragon)");
-				int idAChanger = saisir.nextInt();
 				
 				System.out.println("Saisissez le nouveau ID : ");
 				int nouveauID = saisir.nextInt();
 				
-				updateIdDragons(nouveauID, idAChanger);
-				
-				System.out.println("Modification validee !");
+				updateIdDragons(nouveauID, nomAChanger);
+				saisir.nextLine();
+				validationUpdate();
 				
 			} else if (choixAFaire.equals("sexe")) {
 				saisir.nextLine();
-				System.out.println("Quel est le sexe de dragon a modifier ? (indiquer son sexe)");
-				String sexeAChanger = saisir.nextLine();
 				
 				System.out.println("Saisissez le nouveau sexe : ");
 				
 				String nouveauSexe = saisir.nextLine();
 				
-				updateSexeDragons(nouveauSexe, sexeAChanger);
+				updateSexeDragons(nouveauSexe, nomAChanger);
 				
-				System.out.println("Modification validee !");
+				validationUpdate();
 				
 			} else if (choixAFaire.equals("longueur")) {
-				System.out.println("Quelle est la longueur de dragon a modifier ? (indiquer sa longueur)");
-				int longAChanger = saisir.nextInt();
-				
+
 				System.out.println("Saisissez la nouvelle longueur : ");
 				int nouvelleLong = saisir.nextInt();
 				
-				updateLongueurDragons(nouvelleLong, longAChanger);
-				
-				System.out.println("Modification validee !");
+				updateLongueurDragons(nouvelleLong, nomAChanger);
+				saisir.nextLine();
+				validationUpdate();
 				
 			} else if (choixAFaire.equals("ecailles")) {
-				System.out.println("Indiquer le nombres d'ecailles a modifier ? (indiquer son nombres d'Ecailles)");
-				int nbEcaillesAChanger = saisir.nextInt();
+
 				
 				System.out.println("Saisissez le nouveau nombres d'ecailles : ");
 				
 				int nouveauNbEcailles = saisir.nextInt();
 				
-				updateNombEcaillesDragons(nouveauNbEcailles, nbEcaillesAChanger);
-				
-				System.out.println("Modification validee !");
+				updateNombEcaillesDragons(nouveauNbEcailles, nomAChanger);
+				saisir.nextLine();
+				validationUpdate();
 					
 			} else if (choixAFaire.equals("feu")) {
-//				saisir.nextLine();
-				System.out.println("Crache-t-il du feu ? (true / false)");
-				boolean feuAChanger = saisir.nextBoolean();
 				
-				System.out.println("Saisissez le nouveau caracteristique du feu : ");
+				System.out.println("Saisissez le nouveau caracteristique du feu : taper : 'true' si il crache du feu et 'false' sans feu");
 				
 				boolean nouveauFeu = saisir.nextBoolean();
 				
-				updateFeuDragons(nouveauFeu, feuAChanger);
-				
-				System.out.println("Modification validee !");
+				updateFeuDragons(nouveauFeu, nomAChanger);
+				saisir.nextLine();
+				validationUpdate();
 					
 			} else if (choixAFaire.equals("amour")) {
-					
-				System.out.println("Quel comportement amoureux que vous aimeriez modifier ?");
-				String compoAChanger = saisir.nextLine();
 				
 				System.out.println("Saisissez le nouveau comportement amoureux : ");
 				
 				String nouveauCompo = saisir.nextLine();
 				
-				updateComportementDragons(nouveauCompo, compoAChanger);
+				updateComportementDragons(nouveauCompo, nomAChanger);
 				
-				System.out.println("Modification validee !");
+				validationUpdate();
 				
 			} else {
 				System.out.println("Reponse non valide");
 				testUpdate = false;
-			}
-			
-			
+
+			}					
 		} while (!testUpdate);
-		System.out.println("");
 }
 	
+	public static void validationUpdate() {
+		System.out.println("Modification validee !");
+		System.out.println("Voir le changement dans le tableau");
+		readAll();
+		continueOuPas();
+	}
 	
 	//Update by name using prepared Statement
-	public static boolean updateNomDragons(String nom, String nom2) {
+	public static boolean updateNomDragons(String nouveauNom, String nomAChanger) {
 		 boolean success = false;
 		 try {
 			 System.out.println("Debut");
@@ -311,8 +282,8 @@ public class QueryDragons extends MyConnexion{
 			 
 			 
 			 //la méthode demande la requete en parametre // correspond a la position du ? qui est en position 1   
-			 declaration.setString(1, nom); //Faire correspondre le premier point d'interrogation à notre paramètre nom
-			 declaration.setString(2, nom2);
+			 declaration.setString(1, nouveauNom); //Faire correspondre le premier point d'interrogation à notre paramètre nom
+			 declaration.setString(2, nomAChanger);
 			 
 			 int executeUpdate = declaration.executeUpdate();
 			 
@@ -324,19 +295,19 @@ public class QueryDragons extends MyConnexion{
 		 	return success;
 	}
 	
-	public static boolean updateIdDragons(int idDrag, int idDrag2) {
+	public static boolean updateIdDragons(int nouveauID, String nomAChanger) {
 		 boolean success = false;
 		 try {
 			 System.out.println("Debut");
 			 
 			 //Indiquer les endroits ou seront places les variables avec ?
-			 String query = "UPDATE dragons SET Id_Dragon = ? WHERE Id_Dragon = ?"; 
+			 String query = "UPDATE dragons SET Id_Dragon = ? WHERE dragon = ?"; 
 			  
 			 //Les requetes préparées : PrepareStatement remplace l'ancien Statement.
 			 PreparedStatement declaration = accessDataBase.prepareStatement(query);
 			   
-			 declaration.setInt(1, idDrag);
-			 declaration.setInt(2, idDrag2);
+			 declaration.setInt(1, nouveauID);
+			 declaration.setString(2, nomAChanger);
 			 
 			 int executeUpdate = declaration.executeUpdate();
 			 
@@ -348,7 +319,7 @@ public class QueryDragons extends MyConnexion{
 		 	return success;
 	}
 	
-	public static boolean updateSexeDragons(String sexeDrag, String nomAChanger) {
+	public static boolean updateSexeDragons(String nouveauSexe, String nomAChanger) {
 		 boolean success = false;
 		 try {
 			 System.out.println("Debut");
@@ -359,7 +330,7 @@ public class QueryDragons extends MyConnexion{
 			 //Les requetes préparées : PrepareStatement remplace l'ancien Statement.
 			 PreparedStatement declaration = accessDataBase.prepareStatement(query);
 			   
-			 declaration.setString(1, sexeDrag);
+			 declaration.setString(1, nouveauSexe);
 			 declaration.setString(2, nomAChanger);
 			 
 			 int executeUpdate = declaration.executeUpdate();
@@ -372,7 +343,7 @@ public class QueryDragons extends MyConnexion{
 		 	return success;
 	}
 	
-	public static boolean updateLongueurDragons(int longDrag, String nomAChanger) {
+	public static boolean updateLongueurDragons(int nouvelleLong, String nomAChanger) {
 		 boolean success = false;
 		 try {
 			 System.out.println("Debut");
@@ -383,7 +354,7 @@ public class QueryDragons extends MyConnexion{
 			 //Les requetes préparées : PrepareStatement remplace l'ancien Statement.
 			 PreparedStatement declaration = accessDataBase.prepareStatement(query);
 			   
-			 declaration.setInt(1, longDrag);
+			 declaration.setInt(1, nouvelleLong);
 			 declaration.setString(2, nomAChanger);
 			 
 			 int executeUpdate = declaration.executeUpdate();
@@ -396,18 +367,18 @@ public class QueryDragons extends MyConnexion{
 		 	return success;
 	}
 	
-	public static boolean updateNombEcaillesDragons(int nbEcDrag, String nomAChanger) {
+	public static boolean updateNombEcaillesDragons(int nouveauNbEcailles, String nomAChanger) {
 		 boolean success = false;
 		 try {
 			 System.out.println("Debut");
 			 
 			 //Indiquer les endroits ou seront places les variables avec ?
-			 String query = "UPDATE dragons SET nombresEcailles = ? WHERE nombresEcailles = ?"; 
+			 String query = "UPDATE dragons SET nombreEcailles = ? WHERE dragon = ?"; 
 			  
 			 //Les requetes préparées : PrepareStatement remplace l'ancien Statement.
 			 PreparedStatement declaration = accessDataBase.prepareStatement(query);
 			   
-			 declaration.setInt(1, nbEcDrag);
+			 declaration.setInt(1, nouveauNbEcailles);
 			 declaration.setString(2, nomAChanger);
 			 
 			 int executeUpdate = declaration.executeUpdate();
@@ -420,18 +391,18 @@ public class QueryDragons extends MyConnexion{
 		 	return success;
 	}
 	
-	public static boolean updateFeuDragons(Boolean cracheFeuDrag, String nomAChanger) {
+	public static boolean updateFeuDragons(Boolean nouveauFeu, String nomAChanger) {
 		 boolean success = false;
 		 try {
 			 System.out.println("Debut");
 			 
 			 //Indiquer les endroits ou seront places les variables avec ?
-			 String query = "UPDATE dragons SET cracheDuFeu = ? WHERE cracheDuFeu = ?"; 
+			 String query = "UPDATE dragons SET cracheDuFeu = ? WHERE dragon = ?"; 
 			  
 			 //Les requetes préparées : PrepareStatement remplace l'ancien Statement.
 			 PreparedStatement declaration = accessDataBase.prepareStatement(query);
 			   
-			 declaration.setBoolean(1, cracheFeuDrag);
+			 declaration.setBoolean(1, nouveauFeu);
 			 declaration.setString(2, nomAChanger);
 			 
 			 int executeUpdate = declaration.executeUpdate();
@@ -450,7 +421,7 @@ public class QueryDragons extends MyConnexion{
 			 System.out.println("Debut");
 			 
 			 //Indiquer les endroits ou seront places les variables avec ?
-			 String query = "UPDATE dragons SET comportementAmoureux = ? WHERE comportementAmoureux = ?"; 
+			 String query = "UPDATE dragons SET comportementAmoureux = ? WHERE dragon = ?"; 
 			  
 			 //Les requetes préparées : PrepareStatement remplace l'ancien Statement.
 			 PreparedStatement declaration = accessDataBase.prepareStatement(query);
@@ -468,6 +439,18 @@ public class QueryDragons extends MyConnexion{
 		 	return success;
 	}
 	
+	public static void continueOuPas() {
+		
+		String choixContinue = "";
+		
+			System.out.println("Voulez-vous continuer a faire autre chose ? (oui / non)");
+			choixContinue = saisir.nextLine();
+			if (choixContinue.equals("oui")) {
+				testEntree = false;
+			} else {
+				System.out.println("Merci et a bientot !");
+			}	
+	}
 	
 	public static void saisieChoixDelete() {
 		System.out.println("Quel dragon voulez-vous supprimer ? (indiquer son nom)");
@@ -476,8 +459,9 @@ public class QueryDragons extends MyConnexion{
 		
 		deleteByNamePrepared(nomASupprimer);
 		
-		System.out.println("La ligne correspondante a ete supprimee");
+		System.out.println("La ligne correspondante a ete supprimee. Ci dessous le tableau dragon");
 		readAll();
+		continueOuPas();
 	}
 	
 	//Delete by name using prepared Statement
@@ -507,9 +491,6 @@ public class QueryDragons extends MyConnexion{
 		 	System.out.println("Fin");
 		 	return success;
 	}
-	
-	
-	
 
 	 /**
 	 * Ici on test
@@ -521,27 +502,8 @@ public class QueryDragons extends MyConnexion{
 		 
 		 choixUser();
 		 
-	//	 saisieChoixDragons();
 		 
-	//	 readAll();
-		 
-	//	 createDragons(10, "Bruv", "F", 126, 1547, true, "adala");
-		 
-		 //Apres
-//		 readAll();
-		 
-	//	 updateDragons();
-		 
-		//Apres
-/*		 readAll();
-		 
-		 deleteByNamePrepared("d");
-		 
-		 readAll();       */
-			//Apres
-//		 readAll();
-		 
-//		 closeConnection();
+		 closeConnection();
 	 }
 
 
