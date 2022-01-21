@@ -11,6 +11,12 @@ public class Dragons {
 	private String comportementAmoureux;
 	
 	
+	
+	/**
+	 * Getter et setter 
+	 * @return param / actions
+	 * */
+	
 	public int getId_Dragon() {
 		return id_Dragon;
 	}
@@ -66,8 +72,18 @@ public class Dragons {
 		this.comportementAmoureux = comportementAmoureux;
 	}
 	
-	public Dragons(int Id_Dragon, String dragon, String sexe, int longueur, int nombreEcailles, Boolean cracheDuFeu, String comportementAmoureux) {
-		this.setId_Dragon(Id_Dragon);
+	/**
+	 * Constructor TamagotchiV2 
+	 * @param id_Dragon
+	 * @param dragon
+	 * @param sexe
+	 * @param longueur
+	 * @param nombreEcailles
+	 * @param cracheDuFeu 
+	 * @param comportementAmoureux
+	 */
+	public Dragons(int id_Dragon, String dragon, String sexe, int longueur, int nombreEcailles, Boolean cracheDuFeu, String comportementAmoureux) {
+		this.setId_Dragon(id_Dragon);
 		this.setDragon(dragon);
 		this.setSexe(sexe);
 		this.setLongueur(longueur);
@@ -79,6 +95,7 @@ public class Dragons {
 	public Dragons() {
 		// TODO Auto-generated constructor stub
 	}
+	
 	@Override
 	public String toString() {
 		return "Dragons [getId_Dragon()=" + getId_Dragon() + ", getDragon()=" + getDragon() + ", getSexe()=" + getSexe()
