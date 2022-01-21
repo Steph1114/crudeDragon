@@ -21,6 +21,7 @@ public class QueryDragons extends MyConnexion{
 	static Scanner saisir = new Scanner(System.in);
 	
 	
+	//La methode sera appelee dans MainDriver
 	public static void choixUser() {
 		
 		
@@ -49,11 +50,9 @@ public class QueryDragons extends MyConnexion{
 			}
 		
 		} while (!testEntree);
-	//	continueOuPas();
-	//	System.out.println("Merci et a bientot!");	
 	}
 	
-	
+	//Creation d'un objet dragon
 	public static void saisieChoixCreate() {
 			
 		do {
@@ -66,19 +65,24 @@ public class QueryDragons extends MyConnexion{
 				System.out.println("Veuillez lui attribuer un numero d'ID (nombre > 20) : ");
 				int choixId = saisir.nextInt();
 				saisir.nextLine();
+				
 				System.out.println("Veuillez lui donner un nom : ");
 				String choixNom = saisir.nextLine();
+				
 				System.out.println("Quel est son sexe ? (M / F) ");
 				String choixSexe = saisir.nextLine();
+				
 				System.out.println("Quel est sa taille / longueur ? ");
 				int choixLong = saisir.nextInt();
-//				saisir.nextLine();
+
 				System.out.println("Quels sont les nombres d'ecailles ? ");
 				int choixEcailles = saisir.nextInt();
 				saisir.nextLine();
+				
 				System.out.println("Crache-t-il du feu ce dragon (true/false) : ");
 				boolean choixFeu = saisir.nextBoolean();
 				saisir.nextLine();
+				
 				System.out.println("Quel est son comportement amoureux ?");
 				String choixCompo = saisir.nextLine();
 				
@@ -101,13 +105,15 @@ public class QueryDragons extends MyConnexion{
 		
 	}
 	
-	
+	/*
+	 * Methode de requete insertion / creation
+	 * */
 	public static boolean createDragons (int id_Dragon, String n, String sexe, int longueur, int nombreEcailles, Boolean cracheDuFeu, String comportementAmoureux) {
 		 boolean flag = false;
 		 try {	
 			 System.out.println("Debut");
 			 /*Requete*/
-				 String query = "INSERT INTO dragons (Id_Dragon, dragon, sexe, longueur, nombreEcailles, cracheDuFeu, comportementAmoureux) VALUES (?,?,?,?,?,?,?)";
+				 String query = "INSERT INTO dragons (id_Dragon, dragon, sexe, longueur, nombreEcailles, cracheDuFeu, comportementAmoureux) VALUES (?,?,?,?,?,?,?)";
 				 
 				 PreparedStatement declaration = accessDataBase.prepareStatement(query);
 				 
@@ -132,7 +138,7 @@ public class QueryDragons extends MyConnexion{
 	
 	
 	/**
-	 * Action de lire les tous les dragons
+	 * Action de lire /afficher les tous les dragons
 	 */
 	public static void readAll() {
 		 try {
@@ -168,9 +174,7 @@ public class QueryDragons extends MyConnexion{
 	/**
 	 * Action de mettre a jour toutes les colonnes de la table dragons
 	 */
-	/*public static void updateDragons() {
-		updateNomDragons(nom, nom2);
-	*/
+	
 	
 	public static void saisieChoixUpdate() {
 		boolean testUpdate = false;
@@ -261,6 +265,7 @@ public class QueryDragons extends MyConnexion{
 		} while (!testUpdate);
 }
 	
+	//
 	public static void validationUpdate() {
 		System.out.println("Modification validee !");
 		System.out.println("Voir le changement dans le tableau");
@@ -280,9 +285,8 @@ public class QueryDragons extends MyConnexion{
 			 //Les requetes préparées : PrepareStatement remplace l'ancien Statement.
 			 PreparedStatement declaration = accessDataBase.prepareStatement(query);
 			 
-			 
-			 //la méthode demande la requete en parametre // correspond a la position du ? qui est en position 1   
-			 declaration.setString(1, nouveauNom); //Faire correspondre le premier point d'interrogation à notre paramètre nom
+			   
+			 declaration.setString(1, nouveauNom); 
 			 declaration.setString(2, nomAChanger);
 			 
 			 int executeUpdate = declaration.executeUpdate();
@@ -295,15 +299,17 @@ public class QueryDragons extends MyConnexion{
 		 	return success;
 	}
 	
+	/*Methode de requete UPDATE / modification 
+	 * name
+	 * */
 	public static boolean updateIdDragons(int nouveauID, String nomAChanger) {
 		 boolean success = false;
 		 try {
 			 System.out.println("Debut");
 			 
-			 //Indiquer les endroits ou seront places les variables avec ?
+		
 			 String query = "UPDATE dragons SET Id_Dragon = ? WHERE dragon = ?"; 
 			  
-			 //Les requetes préparées : PrepareStatement remplace l'ancien Statement.
 			 PreparedStatement declaration = accessDataBase.prepareStatement(query);
 			   
 			 declaration.setInt(1, nouveauID);
@@ -472,14 +478,11 @@ public class QueryDragons extends MyConnexion{
 			 System.out.println("Debut");
 			 //Indiquer les endroits ou seront places les variables avec ?
 			 String query = "DELETE FROM dragons WHERE dragon = ?";
-			 
-			 
+			 			 
 			 //Les requetes préparées : PrepareStatement remplace l'ancien Statement.
 			 PreparedStatement declaration = accessDataBase.prepareStatement(query);
 			 
-			 
-			 //la méthode demande la requete en parametre // correspond a la position du ? qui est en position 1   
-			 declaration.setString(1, nomASupprimer); //Faire correspondre le premier point d'interrogation à notre paramètre nom
+			 declaration.setString(1, nomASupprimer);
 			 
 			 
 			 int executeUpdate = declaration.executeUpdate();
