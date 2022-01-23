@@ -1,0 +1,36 @@
+--
+-- Base de données :  `bddragon`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `dragons`
+--
+
+CREATE TABLE `dragons` (
+  `id_Dragon` int(11) NOT NULL,
+  `dragon` varchar(40) NOT NULL,
+  `sexe` char(4) NOT NULL,
+  `longueur` int(11) NOT NULL,
+  `nombreEcailles` int(11) NOT NULL,
+  `cracheDuFeu?` BOOLEAN NOT NULL,
+  `comportementAmoureux` varchar(50) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Déchargement des données de la table `dragons2`
+--
+
+INSERT INTO `dragons` (`id_Dragon`,`dragon`, `sexe`, `longueur`, `nombreEcailles` , `cracheDuFeu`,`comportementAmoureux`) VALUES
+(1,'Smaug','M', 152, 1857, 1, 'macho '),
+(2, 'Birdurh', 'M', 258, 4787, 0, 'timide '),
+(3, 'Negueth', 'F', 128, 1581, 1, 'sincere '),
+(4, 'MissToc', 'F', 183, 2781, 0, 'superflu '),
+(5, 'Bolong', 'M', 213, 2751, 1, 'macho '),
+(6, 'Miloch', 'M', 83, 718, 1, 'timide '),
+(7, 'Nessie', 'M', 168, 1721, 0, 'absent '),
+(8, 'Tarak', 'F', 123, 851, 1, 'timide '),
+(9,'Solong', 'M', 173, 1481, 1, 'sincere ');
+
+-- --------------------------------------------------------
